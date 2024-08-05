@@ -12,8 +12,8 @@ export const authOptions = {
   adapter: MongoDBAdapter(client),
   providers: [
   GoogleProvider({
-    clientId: process.env.GOOGLE_CLIENT_ID??'',
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET??''
+    clientId: process.env.GOOGLE_CLIENT_ID ?? '',
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? ''
   }),
     CredentialsProvider({
       name: 'Credentials',
@@ -26,7 +26,7 @@ export const authOptions = {
         
         const email = credentials?.email;
         const password = credentials?.password;
-        mongoose.connect(process.env.MONGODB_URI??'');
+        mongoose.connect(process.env.MONGODB_URI ?? '');
 
         const user = await User.findOne({email});
         const passwordOk = user && bcrypt.compareSync(password ?? '', user.password);
