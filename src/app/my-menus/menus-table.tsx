@@ -1,18 +1,8 @@
 import Image from 'next/image';
-import { File, ListFilter, MoreHorizontal, PlusCircle } from 'lucide-react';
-
-import { Badge } from '@/components/ui/badge';
+import { MoreHorizontal, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 type MenuItem = {
@@ -63,34 +53,40 @@ export function MenusTable({ menus }: Props) {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            <TableRow>
-                                <TableCell className="hidden sm:table-cell">
-                                    <Image
-                                        alt="Product image"
-                                        className="aspect-square rounded-md object-cover"
-                                        height="64"
-                                        src="/placeholder.svg"
-                                        width="64"
-                                    />
-                                </TableCell>
-                                <TableCell className="font-medium">Laser Lemonade Machine</TableCell>
-                                <TableCell className="hidden md:table-cell">2023-07-12 10:42 AM</TableCell>
-                                <TableCell>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button aria-haspopup="true" size="icon" variant="ghost">
-                                                <MoreHorizontal className="h-4 w-4" />
-                                                <span className="sr-only">Toggle menu</span>
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end">
-                                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                            <DropdownMenuItem>Edit</DropdownMenuItem>
-                                            <DropdownMenuItem>Delete</DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </TableCell>
-                            </TableRow>
+                            {menus.map((menu) =>
+                                menu.menuItems.map((item) => {
+                                    console.log(item);
+                                    return (
+                                    <TableRow key={item.name}>
+                                        <TableCell className="hidden sm:table-cell">
+                                            <Image
+                                                alt={item.name}
+                                                className="aspect-square rounded-md object-cover"
+                                                height="64"
+                                                src={item.imageUrl}
+                                                width="64"
+                                            />
+                                        </TableCell>
+                                        <TableCell className="font-medium">{item.name}</TableCell>
+                                        <TableCell className="hidden md:table-cell">2023-07-12 10:42 AM</TableCell>
+                                        <TableCell>
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button aria-haspopup="true" size="icon" variant="ghost">
+                                                        <MoreHorizontal className="h-4 w-4" />
+                                                        <span className="sr-only">Toggle menu</span>
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end">
+                                                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                                                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </TableCell>
+                                    </TableRow>
+                                )})
+                            )}
                         </TableBody>
                     </Table>
                 </CardContent>
