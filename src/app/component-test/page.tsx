@@ -3,6 +3,8 @@ import { MenuItemForm } from "../components/forms/MenuItemForm";
 
 export default function Page() {
     return (
-        <MenuItemForm/>
+        <div className="p-10">
+            <MenuItemForm/>
+        </div>
     )
 }

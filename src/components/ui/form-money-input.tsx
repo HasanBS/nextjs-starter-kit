@@ -6,8 +6,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form"; // Shadcn UI import
-import { Input } from "../ui/input"; // Shandcn UI Input
+} from "./form"; // Shadcn UI import
+import { Input } from "./input"; // Shandcn UI Input
 import { UseFormReturn } from "react-hook-form";
 
 type TextInputProps = {
@@ -27,7 +27,7 @@ const moneyFormatter = Intl.NumberFormat("tr-TR", {
   maximumFractionDigits: 2,  
 });
 
-export default function MoneyInput(props: TextInputProps) {
+export default function FormMoneyInput(props: TextInputProps) {
   const initialValue = props.form.getValues()[props.name]
     ? moneyFormatter.format(props.form.getValues()[props.name])
     : "";

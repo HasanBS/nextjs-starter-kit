@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import MoneyInput from '@/components/ui/moneyInput';
+import FormMoneyInput from '@/components/ui/form-money-input';
 
 const formSchema = z.object({
     name: z.string(),
@@ -44,7 +44,6 @@ export function MenuItemForm() {
                             <FormControl>
                                 <Input placeholder="Name of your product" {...field} />
                             </FormControl>
-                            <FormDescription>This is the name of your product.</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -58,13 +57,11 @@ export function MenuItemForm() {
                             <FormControl>
                                 <Input placeholder="Description of your product" {...field} />
                             </FormControl>
-                            <FormDescription>This is the description of your product.</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <MoneyInput label='price' placeholder='' name='price' form={form} />
-                
+                <FormMoneyInput label='Price' placeholder='' name='price' form={form} />
                 <Button type="submit">Submit</Button>
             </form>
         </Form>
