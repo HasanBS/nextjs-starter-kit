@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import { Bell, Home, LineChart, Package, Package2, ShoppingCart, Users } from 'lucide-react';
+import { Bell, Home, Package, Package2 } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -29,7 +28,7 @@ export default function SideBar() {
                             Dashboard
                         </Link>
                         <Link
-                            href="#"
+                            href="/my-menus"
                             className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
                         >
                             <Package className="h-4 w-4" />
