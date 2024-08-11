@@ -10,7 +10,7 @@ import FormMoneyInput from '@/components/ui/form-money-input';
 import { useState } from 'react';
 
 const formSchema = z.object({
-    name: z.string(),
+    name: z.string().min(1, 'Name is required'),
     description: z.string(),
     price: z.number().positive(),
     thumbnail: z.string(),
@@ -18,7 +18,7 @@ const formSchema = z.object({
 
 export function MenuItemForm() {
     const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
-    
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -69,7 +69,7 @@ export function MenuItemForm() {
                         </FormItem>
                     )}
                 />
-                <FormMoneyInput label="Price" placeholder="" name="price" form={form} />
+                <FormMoneyInput label="Price" placeholder="Price of your product" name="price" form={form} />
                 <FormField
                     control={form.control}
                     name="thumbnail"
@@ -83,7 +83,7 @@ export function MenuItemForm() {
                                     onChange={(e) => {
                                         if (e.target.files && e.target.files[0]) {
                                             setThumbnailFile(e.target.files[0]);
-                                            field.onChange(e.target.files[0].name); // Update the form value
+                                            field.onChange(e.target.files[0].name);
                                         }
                                     }}
                                 />
