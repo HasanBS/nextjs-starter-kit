@@ -2,7 +2,7 @@
 import React, { useState, FormEvent } from 'react';
 import Link from "next/link";
 import { signIn } from "next-auth/react";
-import GoogleSignIn from '../components/GoogleSignIn';
+import GoogleSignIn from '../../components/ui/authentication/GoogleSignIn';
 
 export default function LoginPage() {
 

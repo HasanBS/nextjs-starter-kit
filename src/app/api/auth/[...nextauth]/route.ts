@@ -1,5 +1,5 @@
-import client from "@/app/libs/mongoConnect";
-import { User } from "@/app/models/User";
+import client from "@/lib/mongoConnect";
+import { User } from "@/models/User";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import bcrypt from "bcrypt";
 import * as mongoose from "mongoose";

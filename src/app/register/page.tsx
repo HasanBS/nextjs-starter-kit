@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, FormEvent } from 'react';
 import Link from "next/link";
-import GoogleSignIn from '../components/GoogleSignIn';
+import GoogleSignIn from '../../components/ui/authentication/GoogleSignIn';
 
 export default function RegisterPage() {
     const [email, setEmail] = useState('');
