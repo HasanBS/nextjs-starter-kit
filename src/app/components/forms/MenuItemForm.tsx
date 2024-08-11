@@ -7,37 +7,34 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import FormMoneyInput from '@/components/ui/form-money-input';
-import { useState } from 'react';
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
 
 const formSchema = z.object({
     name: z.string().min(1, 'Name is required'),
     description: z.string(),
     price: z.number().positive(),
-    thumbnail: z.string(),
+    thumbnail: z
+        .any()
+        .refine((files) => files && files.length, 'File is required')
+        .refine((files) => files && ACCEPTED_IMAGE_TYPES.includes(files[0]?.type), 'Only image files are allowed')
+        .refine((files) => files && files[0]?.size <= MAX_FILE_SIZE, 'File size should be less than 5MB'),
 });
 
 export function MenuItemForm() {
-    const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
-
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: '',
             description: '',
             price: 0,
-            thumbnail: '',
+            thumbnail: undefined,
         },
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
-        // const formData = new FormData();
-        // formData.append('name', values.name);
-        // formData.append('description', values.description);
-        // formData.append('price', values.price);
-        // if (thumbnailFile) {
-        //     formData.append('thumbnail', thumbnailFile);
-        // }
     }
 
     return (
@@ -77,16 +74,7 @@ export function MenuItemForm() {
                         <FormItem>
                             <FormLabel>Thumbnail</FormLabel>
                             <FormControl>
-                                <Input
-                                    type="file"
-                                    placeholder="Description of your product"
-                                    onChange={(e) => {
-                                        if (e.target.files && e.target.files[0]) {
-                                            setThumbnailFile(e.target.files[0]);
-                                            field.onChange(e.target.files[0].name);
-                                        }
-                                    }}
-                                />
+                                <Input type="file" onChange={(e) => field.onChange(e.target.files)} ref={field.ref} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
