@@ -21,7 +21,7 @@ const moneyFormatter = Intl.NumberFormat('tr-TR', {
 });
 
 export default function FormMoneyInput({label, name, placeholder, form }: TextInputProps) {
-    const initialValue = form.getValues()[name] ? moneyFormatter.format(form.getValues()[name]) : '';
+    const initialValue = form.getValues()[name] ? moneyFormatter.format(form.getValues()[name]) : moneyFormatter.format(0);
 
     const [value, setValue] = useState(initialValue);
 
@@ -41,7 +41,7 @@ export default function FormMoneyInput({label, name, placeholder, form }: TextIn
                                 type="text"
                                 {...field}
                                 onChange={(ev) => {
-                                    const digits = ev.target.value.replace(/\D/g, '');
+                                    const digits = ev.target.value.replace(/\D/g, '').slice(0, 8);
                                     const realValue = Number(digits) / 100;
                                     const formattedValue = moneyFormatter.format(realValue);
 
