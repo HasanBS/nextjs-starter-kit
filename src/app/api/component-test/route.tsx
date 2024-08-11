@@ -1,5 +1,5 @@
 
-import { Component } from "@/app/models/Component";
+import { Component } from "@/models/Component";
 import mongoose from "mongoose";
 
 export async function POST(req: any) {
