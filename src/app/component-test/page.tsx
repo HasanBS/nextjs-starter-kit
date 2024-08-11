@@ -1,4 +1,4 @@
-import { MenuItemForm } from "../components/forms/MenuItemForm";
+import { MenuItemForm } from "../../components/ui/form/MenuItemForm";
 
 
 export default function Page() {
