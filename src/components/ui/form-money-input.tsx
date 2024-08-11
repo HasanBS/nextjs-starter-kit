@@ -1,75 +1,60 @@
-"use client";
-import { useReducer } from "react";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./form"; // Shadcn UI import
-import { Input } from "./input"; // Shandcn UI Input
-import { UseFormReturn } from "react-hook-form";
+'use client';
+import { useState } from 'react';
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from './form';
+import { Input } from './input';
+import { UseFormReturn } from 'react-hook-form';
 
 type TextInputProps = {
-  form: UseFormReturn<any>;
-  name: string;
-  label: string;
-  placeholder: string;
+    form: UseFormReturn<any>;
+    name: string;
+    label: string;
+    placeholder: string;
 };
 
-// Brazilian currency config
-const moneyFormatter = Intl.NumberFormat("tr-TR", {
-  currency: "TRY",
-  currencyDisplay: "symbol",
-  currencySign: "standard",
-  style: "currency",
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,  
+const moneyFormatter = Intl.NumberFormat('tr-TR', {
+    currency: 'TRY',
+    currencyDisplay: 'symbol',
+    currencySign: 'standard',
+    style: 'currency',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
 });
 
-export default function FormMoneyInput(props: TextInputProps) {
-  const initialValue = props.form.getValues()[props.name]
-    ? moneyFormatter.format(props.form.getValues()[props.name])
-    : "";
+export default function FormMoneyInput({label, name, placeholder, form }: TextInputProps) {
+    const initialValue = form.getValues()[name] ? moneyFormatter.format(form.getValues()[name]) : '';
 
-  const [value, setValue] = useReducer((_: any, next: string) => {
-    const digits = next.replace(/\D/g, "");
-    return moneyFormatter.format(Number(digits) / 100);
-  }, initialValue);
+    const [value, setValue] = useState(initialValue);
 
-  function handleChange(realChangeFn: Function, formattedValue: string) {
-    const digits = formattedValue.replace(/\D/g, "");
-    const realValue = Number(digits) / 100;
-    realChangeFn(realValue);
-  }
+    return (
+        <FormField
+            control={form.control}
+            name={name}
+            render={({ field }) => {
+                field.value = value;
 
-  return (
-    <FormField
-      control={props.form.control}
-      name={props.name}
-      render={({ field }) => {
-        field.value = value;
-        const _change = field.onChange;
+                return (
+                    <FormItem>
+                        <FormLabel>{label}</FormLabel>
+                        <FormControl>
+                            <Input
+                                placeholder={placeholder}
+                                type="text"
+                                {...field}
+                                onChange={(ev) => {
+                                    const digits = ev.target.value.replace(/\D/g, '');
+                                    const realValue = Number(digits) / 100;
+                                    const formattedValue = moneyFormatter.format(realValue);
 
-        return (
-          <FormItem>
-            <FormLabel>{props.label}</FormLabel>
-            <FormControl>
-              <Input
-                placeholder={props.placeholder}
-                type="text"
-                {...field}
-                onChange={(ev) => {
-                  setValue(ev.target.value);
-                  handleChange(_change, ev.target.value);
-                }}
-                value={value}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        );
-      }}
-    />
-  );
+                                    setValue(formattedValue);
+                                    field.onChange(realValue);
+                                }}
+                                value={value}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                );
+            }}
+        />
+    );
 }

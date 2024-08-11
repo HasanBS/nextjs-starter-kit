@@ -12,7 +12,7 @@ import { useState } from 'react';
 const formSchema = z.object({
     name: z.string(),
     description: z.string(),
-    price: z.string(),
+    price: z.number().positive(),
     thumbnail: z.string(),
 });
 
@@ -24,19 +24,20 @@ export function MenuItemForm() {
         defaultValues: {
             name: '',
             description: '',
-            price: '',
+            price: 0,
             thumbnail: '',
         },
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        const formData = new FormData();
-        formData.append('name', values.name);
-        formData.append('description', values.description);
-        formData.append('price', values.price);
-        if (thumbnailFile) {
-            formData.append('thumbnail', thumbnailFile);
-        }
+        console.log(values);
+        // const formData = new FormData();
+        // formData.append('name', values.name);
+        // formData.append('description', values.description);
+        // formData.append('price', values.price);
+        // if (thumbnailFile) {
+        //     formData.append('thumbnail', thumbnailFile);
+        // }
     }
 
     return (
