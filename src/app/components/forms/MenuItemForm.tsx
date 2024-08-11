@@ -10,6 +10,7 @@ import FormMoneyInput from '@/components/ui/form-money-input';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+const MAX_FILE_COUNT = 1;
 
 const formSchema = z.object({
     name: z.string().min(1, 'Name is required'),
@@ -19,7 +20,8 @@ const formSchema = z.object({
         .any()
         .refine((files) => files && files.length, 'File is required')
         .refine((files) => files && ACCEPTED_IMAGE_TYPES.includes(files[0]?.type), 'Only image files are allowed')
-        .refine((files) => files && files[0]?.size <= MAX_FILE_SIZE, 'File size should be less than 5MB'),
+        .refine((files) => files && files[0]?.size <= MAX_FILE_SIZE, 'File size should be less than 5MB')
+        .refine((files) => files && files.length <= MAX_FILE_COUNT, 'Only one file is allowed'),
 });
 
 export function MenuItemForm() {
