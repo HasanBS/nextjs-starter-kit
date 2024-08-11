@@ -6,14 +6,12 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useState } from 'react';
+import MoneyInput from '@/components/ui/moneyInput';
 
 const formSchema = z.object({
-    name: z.string().min(2, {
-        message: 'Username must be at least 2 characters.',
-    }),
+    name: z.string(),
     description: z.string(),
-    price: z.string().transform((v) => Number(v)||0),
+    price: z.string(),
 });
 
 export function MenuItemForm() {
@@ -23,7 +21,7 @@ export function MenuItemForm() {
         defaultValues: {
             name: '',
             description: '',
-            price: 0,
+            price: '',
         },
     });
 
@@ -65,6 +63,8 @@ export function MenuItemForm() {
                         </FormItem>
                     )}
                 />
+                <MoneyInput label='price' placeholder='' name='price' form={form} />
+                
                 <Button type="submit">Submit</Button>
             </form>
         </Form>
