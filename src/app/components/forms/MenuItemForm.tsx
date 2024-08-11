@@ -7,29 +7,36 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import FormMoneyInput from '@/components/ui/form-money-input';
+import { useState } from 'react';
 
 const formSchema = z.object({
     name: z.string(),
     description: z.string(),
     price: z.string(),
+    thumbnail: z.string(),
 });
 
 export function MenuItemForm() {
-    // 1. Define your form.
+    const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+    
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: '',
             description: '',
             price: '',
+            thumbnail: '',
         },
     });
 
-    // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values);
+        const formData = new FormData();
+        formData.append('name', values.name);
+        formData.append('description', values.description);
+        formData.append('price', values.price);
+        if (thumbnailFile) {
+            formData.append('thumbnail', thumbnailFile);
+        }
     }
 
     return (
@@ -61,7 +68,29 @@ export function MenuItemForm() {
                         </FormItem>
                     )}
                 />
-                <FormMoneyInput label='Price' placeholder='' name='price' form={form} />
+                <FormMoneyInput label="Price" placeholder="" name="price" form={form} />
+                <FormField
+                    control={form.control}
+                    name="thumbnail"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Thumbnail</FormLabel>
+                            <FormControl>
+                                <Input
+                                    type="file"
+                                    placeholder="Description of your product"
+                                    onChange={(e) => {
+                                        if (e.target.files && e.target.files[0]) {
+                                            setThumbnailFile(e.target.files[0]);
+                                            field.onChange(e.target.files[0].name); // Update the form value
+                                        }
+                                    }}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
                 <Button type="submit">Submit</Button>
             </form>
         </Form>
