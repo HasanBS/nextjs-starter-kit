@@ -1,5 +1,5 @@
  "use client";
-import { MenuItemForm } from "../../components/ui/form/MenuItemForm";
+import { MenuItemForm } from "../../components/ui/form/menu-item-form";
 import toast from 'react-hot-toast';
 import { IComponent } from "../../models/Component";
 import { useState } from "react";

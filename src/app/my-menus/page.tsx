@@ -1,7 +1,7 @@
 import { PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { MenuItemForm } from '@/components/ui/form/MenuItemForm';
+import { MenuItemForm } from '@/components/ui/form/menu-item-form';
 
 export default function Page() {
     return (
