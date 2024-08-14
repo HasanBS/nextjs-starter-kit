@@ -5,8 +5,6 @@ import { MenuItemForm } from '@/components/ui/form/menu-item-form';
 import { useState } from 'react';
 
 export default function Page() {
-    const [open, setOpen] = useState(null);
-
     return (
         <>
             <div className="flex items-center">
