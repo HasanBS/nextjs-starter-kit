@@ -1,14 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-      images: {
+    images: {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: '*.googleusercontent.com'
+                hostname: '*.googleusercontent.com',
             },
             {
                 protocol: 'https',
-                hostname: '*.s3.amazonaws.com'
+                hostname: '*.s3.amazonaws.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'placehold.co',
             },
         ],
     },
