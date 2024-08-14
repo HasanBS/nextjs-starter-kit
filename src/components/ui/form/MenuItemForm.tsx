@@ -52,7 +52,9 @@ export function MenuItemForm({submit , form}: {submit: (values: any) => void , f
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Submit</Button>
+                <div className="flex justify-end">
+                    <Button type="submit">Submit</Button>
+                </div>
             </form>
         </Form>
     );
