@@ -82,7 +82,9 @@ export function MenuItemForm() {
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Submit</Button>
+                <div className="flex justify-end">
+                    <Button type="submit">Submit</Button>
+                </div>
             </form>
         </Form>
     );
