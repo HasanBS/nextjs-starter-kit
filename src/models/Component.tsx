@@ -2,6 +2,7 @@ import { Model, Schema, model, models } from 'mongoose';
 
 
 export interface IComponent {
+    _id?: string;
     name: string;
     description: string;
     price: number;
