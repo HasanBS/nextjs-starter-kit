@@ -1,6 +1,14 @@
-import { Schema, model, models } from 'mongoose';
+import { Model, Schema, model, models } from 'mongoose';
 
-const ComponentSchema = new Schema({
+
+export interface IComponent {
+    name: string;
+    description: string;
+    price: number;
+    thumbnail: string;
+}
+
+const ComponentSchema = new Schema<IComponent>({
     name: {
         type: String,
         required: true,
@@ -18,4 +26,4 @@ const ComponentSchema = new Schema({
     }
 }, { timestamps: true });
 
-export const Component = models?.Component || model('Component', ComponentSchema);
+export const Component: Model<IComponent> = models?.Component || model<IComponent>('Component', ComponentSchema);
