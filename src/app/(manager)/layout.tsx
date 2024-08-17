@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     description: 'Next.JS Starter Kit with Tailwind CSS and TypeScript. It includes authentication, API routes, and more.',
 };
 
-export default function RootLayout({
+export default function Layout({
     children,
 }: Readonly<{
     children: React.ReactNode;
