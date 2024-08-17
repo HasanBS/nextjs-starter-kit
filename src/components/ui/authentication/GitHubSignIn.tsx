@@ -1,21 +1,20 @@
-
 import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 import { Button } from "../button";
 import { Icons } from "../icons";
 import { useState } from "react";
 
-export default function GoogleSignIn() {
+export default function GitHubSignIn() {
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    async function handleGoogleSignIn(event: React.SyntheticEvent) {
+    async function handleGitHubSignIn(event: React.SyntheticEvent) {
         event.preventDefault();
         setIsLoading(true);
         await toast.promise(
-            signIn('google', { callbackUrl: '/' }),
+            signIn('github', { callbackUrl: '/' }),
             {
-                loading: 'Signing in with Google...',
-                success: 'Successfully signed in with Google',
-                error: 'Failed to sign in with Google'
+                loading: 'Signing in with GitHub...',
+                success: 'Successfully signed in with GitHub',
+                error: 'Failed to sign in with GitHub'
             }
         ).then(() => {
             setTimeout(() => {
@@ -25,13 +24,13 @@ export default function GoogleSignIn() {
 
     }
     return (
-        <Button variant="outline" onClick={handleGoogleSignIn} type="button" disabled={isLoading}>
+        <Button variant="outline" onClick={handleGitHubSignIn} type="button" disabled={isLoading}>
             {isLoading ? (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             ) : (
-                <Icons.google className="mr-2 h-4 w-4" />
+                <Icons.gitHub className="mr-2 h-4 w-4" />
             )}{" "}
-            Google
+            GitHub
         </Button>
     );
 }

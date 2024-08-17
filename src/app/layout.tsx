@@ -4,8 +4,8 @@ import './globals.css';
 import { AppProvider } from '../components/ui/authentication/AppContext';
 import { Toaster } from 'react-hot-toast';
 
-import SideBar from '@/components/ui/layout/side-bar';
 import { Header } from '@/components/ui/layout/header';
+import { useRouter } from 'next/router';
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'] });
 
@@ -18,21 +18,18 @@ export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
-}>) {
+}>)
+{
     return (
         <html lang="en">
             <body className={`${roboto.className} min-h-screen flex flex-col`}>
                 <AppProvider>
                     <Toaster />
-                    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-						<SideBar/>
-                        <div className="flex flex-col">
-                            <Header/>
-                            <main className="h-full p-6 lg:p-12">{children}</main>
-                        </div>
-                    </div>
+                    {children}
                 </AppProvider>
             </body>
         </html>
     );
 }
+
+
