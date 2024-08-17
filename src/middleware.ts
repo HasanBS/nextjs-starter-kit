@@ -17,10 +17,7 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next();
     }
 
-    console.log('middleware', req.nextUrl);
-
     const token = await getToken({ req, secret });
-
     if (!token) {
         const loginUrl = new URL('/login', req.url);
         return NextResponse.redirect(loginUrl);

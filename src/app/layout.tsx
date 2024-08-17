@@ -1,11 +1,9 @@
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
-import './globals.css';
-import { AppProvider } from '../components/ui/authentication/AppContext';
 import { Toaster } from 'react-hot-toast';
+import { AppProvider } from '@/components/ui/authentication/AppContext';
 
-import { Header } from '@/components/ui/layout/header';
-import { useRouter } from 'next/router';
+import './globals.css';
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'] });
 
@@ -18,8 +16,7 @@ export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
-}>)
-{
+}>) {
     return (
         <html lang="en">
             <body className={`${roboto.className} min-h-screen flex flex-col`}>
@@ -31,5 +28,3 @@ export default function RootLayout({
         </html>
     );
 }
-
-

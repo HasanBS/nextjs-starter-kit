@@ -1,8 +1,8 @@
 
 import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
-import { Button } from "../button";
-import { Icons } from "../icons";
+import { Button } from "../../../components/ui/button";
+import { Icons } from "../../../components/ui/icons";
 import { useState } from "react";
 
 export default function GoogleSignIn() {

@@ -1,5 +1,6 @@
- "use client";
-import { MenuItemForm } from "../../components/ui/form/menu-item-form";
+"use client";
+
+import { MenuItemForm } from "@/components/ui/form/menu-item-form";
 
 export default function Page() {
     

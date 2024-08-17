@@ -7,8 +7,8 @@ import { Icons } from "@/components/ui/icons"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import GoogleSignIn from '../../../components/ui/authentication/GoogleSignIn';
-import GitHubSignIn from '../../../components/ui/authentication/GitHubSignIn';
+import GitHubSignIn from "./GitHubSignIn"
+import GoogleSignIn from "./GoogleSignIn"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 Input

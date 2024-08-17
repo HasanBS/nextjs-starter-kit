@@ -1,16 +1,13 @@
-import client from '@/lib/mongoConnect';
 import { User } from '@/models/User';
-import { MongoDBAdapter } from '@auth/mongodb-adapter';
 import bcrypt from 'bcrypt';
 import * as mongoose from 'mongoose';
-import NextAuth, { getServerSession } from 'next-auth';
+import NextAuth, { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
-    adapter: MongoDBAdapter(client),
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID ?? '',
@@ -44,6 +41,6 @@ export const authOptions = {
     ],
 };
 
-const handler = NextAuth(authOptions as any);
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
