@@ -1,8 +1,5 @@
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
-import '.././globals.css';
-import { Toaster } from 'react-hot-toast';
-import { SessionProvider } from 'next-auth/react';
 import SideBar from '@/components/ui/layout/side-bar';
 import { Header } from '@/components/ui/layout/header';
 
