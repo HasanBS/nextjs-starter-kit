@@ -1,10 +1,23 @@
+'use client';
+
 import Link from 'next/link';
 import { Bell, Home, Package, Package2 } from 'lucide-react';
-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import { usePathname } from 'next/navigation';
+
+const links = [
+    { href: '/dashboard', label: 'Dashboard', icon: Home },
+    { href: '/my-menus', label: 'Menus', icon: Package },
+];
 
 export default function SideBar() {
+    const pathName = usePathname();
+
+    const activeClasses = 'text-primary bg-muted';
+    const inactiveClasses = 'text-muted-foreground';
+
     return (
         <div className="hidden border-r bg-muted/40 md:block">
             <div className="flex h-full max-h-screen flex-col gap-2">
@@ -20,20 +33,19 @@ export default function SideBar() {
                 </div>
                 <div className="flex-1">
                     <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                        <Link
-                            href="#"
-                            className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                        >
-                            <Home className="h-4 w-4" />
-                            Dashboard
-                        </Link>
-                        <Link
-                            href="/my-menus"
-                            className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
-                        >
-                            <Package className="h-4 w-4" />
-                            Menus
-                        </Link>
+                    {links.map(({ href, label, icon: Icon }) => (
+                            <Link
+                                key={href}
+                                href={href}
+                                className={cn(
+                                    'flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary',
+                                    pathName === href ? activeClasses : inactiveClasses
+                                )}
+                            >
+                                <Icon className="h-4 w-4" />
+                                {label}
+                            </Link>
+                        ))}
                     </nav>
                 </div>
                 <div className="mt-auto p-4">
