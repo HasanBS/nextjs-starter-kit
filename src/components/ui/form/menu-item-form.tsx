@@ -8,11 +8,11 @@ import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { IComponent } from '@/models/Component';
 import { z } from 'zod';
+import { IMenuItem } from '@/models/MenuItem';
 
 export function MenuItemForm() {
-    const [editedMenuItem, setEditedMenuItem] = useState<(IComponent) | null>(null);
+    const [editedMenuItem, setEditedMenuItem] = useState<(IMenuItem) | null>(null);
 
     const MAX_FILE_SIZE = 5 * 1024 * 1024;
     const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
@@ -41,20 +41,18 @@ export function MenuItemForm() {
     });
 
     async function handleMenuItemSubmit(values: z.infer<typeof formSchema>) {
-        const data: IComponent = {
+        const data: IMenuItem = {
             name: values.name,
             description: values.description,
             price: values.price,
             thumbnail: '',
         };
 
-        console.log(data);
-
         if (editedMenuItem) {
             data._id = editedMenuItem._id;
         }
         
-        const categoryCreatePromise = fetch('/api/component-test', {
+        const categoryCreatePromise = fetch('/api/menu-item', {
             method: editedMenuItem ? 'PUT' : 'POST',
             headers: {
                 'Content-Type': 'application/json',
