@@ -3,12 +3,13 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { MenuItemForm } from '@/components/ui/form/menu-item-form';
 import { MenuForm } from '@/components/ui/form/menu-form';
-import { useState } from 'react';
+import { MenuTable } from '@/components/ui/menu-table/menu-table';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
 
 export default function Page() {
     return (
         <>
-            <div className="flex items-center">
+            <div className="w-full flex items-center flex-col gap-4">
                 <div className="ml-auto flex items-center gap-2">
                     <Dialog>
                         <DialogTrigger asChild>
@@ -41,6 +42,7 @@ export default function Page() {
                         </DialogContent>
                     </Dialog>
                 </div>
+                <MenuTable></MenuTable>
             </div>
         </>
     );
