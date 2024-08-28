@@ -1,13 +1,13 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import { model, models, Schema } from 'mongoose';
 
-export interface IMenuItem extends Document {
+interface IMenuItem {
     name: string;
     description: string;
     price: number;
     thumbnail: string;
 }
 
-const MenuItemSchema: Schema = new Schema({
+const MenuItemSchema = new Schema<IMenuItem>({
     name: { type: String, required: true },
     price: { type: Number, required: true },
     description: {
@@ -18,4 +18,4 @@ const MenuItemSchema: Schema = new Schema({
     },
 });
 
-export const MenuItem = mongoose.model<IMenuItem>('MenuItem', MenuItemSchema);
+export const MenuItem = models?.MenuItem || model<IMenuItem>('MenuItem', MenuItemSchema);
