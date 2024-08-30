@@ -36,7 +36,7 @@ export function MenuTable() {
             </TableHeader>
             <TableBody>
                 {rows.map((row: any) => (
-                    <TableRow key={row.key}>{(columnKey) => <TableCell>{getKeyValue(row, columnKey)}</TableCell>}</TableRow>
+                    <TableRow key={row._id}>{(columnKey) => <TableCell>{getKeyValue(row, columnKey)}</TableCell>}</TableRow>
                 ))}
             </TableBody>
         </Table>
