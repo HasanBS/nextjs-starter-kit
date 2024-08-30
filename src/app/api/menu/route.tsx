@@ -28,6 +28,6 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-    const categories = await Menu.find();
-    return Response.json(categories);
+    const menus = await Menu.find();
+    return Response.json(menus);
 }

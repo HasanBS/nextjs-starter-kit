@@ -1,20 +1,41 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue } from '@nextui-org/table';
-import { columns, rows } from './data';
+
+type Column = {
+    key: string;
+    label: string;
+};
+
+const columns: Column[] = [
+    { key: 'name', label: 'Name' },
+    { key: 'actions', label: 'Actions' },
+];
 
 export function MenuTable() {
-    console.log(columns);
+    const [rows, setRows] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchData = () => {
+            fetch('/api/menu')
+                .then(response => response.json())
+                .then(data => setRows(data))
+                .catch(error => console.error('Error fetching menu data:', error));
+        };
+
+        fetchData();
+    }, []);
+    
     return (
-        <Table aria-label="Example table with dynamic content">
+        <Table>
             <TableHeader>
                 {columns.map((column) => (
                     <TableColumn key={column.key}>{column.label}</TableColumn>
                 ))}
             </TableHeader>
             <TableBody>
-                {rows.map((row) => (
+                {rows.map((row: any) => (
                     <TableRow key={row.key}>{(columnKey) => <TableCell>{getKeyValue(row, columnKey)}</TableCell>}</TableRow>
                 ))}
             </TableBody>
