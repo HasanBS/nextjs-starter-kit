@@ -11,6 +11,21 @@ export default function Page() {
         <>
             <div className="w-full flex items-center flex-col gap-4">
                 <div className="ml-auto flex items-center gap-2">
+                <Dialog>
+                        <DialogTrigger asChild>
+                            <Button size="sm" className="h-8 gap-1">
+                                <PlusCircle className="h-3.5 w-3.5" />
+                                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add Product</span>
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                                <DialogTitle>Add new product</DialogTitle>
+                                <DialogDescription>Add your product here. Click submit when you're done.</DialogDescription>
+                            </DialogHeader>
+                            <MenuItemForm></MenuItemForm>
+                        </DialogContent>
+                    </Dialog>
                     <Dialog>
                         <DialogTrigger asChild>
                             <Button size="sm" className="h-8 gap-1">

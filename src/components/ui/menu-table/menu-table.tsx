@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue } from '@nextui-org/table';
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@nextui-org/table';
 import { Tooltip } from '@nextui-org/tooltip';
-import { Delete, Edit, Eye, Trash } from 'lucide-react';
+import { Edit, Trash } from 'lucide-react';
 import Link from 'next/link';
 
 type Column = {
@@ -38,7 +38,7 @@ export function MenuTable() {
                 return (
                     <div className="relative flex items-center gap-2">
                         <Tooltip content="Edit menu">
-                            <Link href={'/menu/' + menu._id}>
+                            <Link href={'/menus/' + menu._id}>
                                 <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                                     <Edit />
                                 </span>
