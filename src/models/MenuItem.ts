@@ -1,4 +1,4 @@
-import { model, models, Schema } from 'mongoose';
+import { Model, model, models, Schema } from 'mongoose';
 
 interface IMenuItem {
     name: string;
@@ -17,5 +17,4 @@ const MenuItemSchema = new Schema<IMenuItem>({
         type: String,
     },
 });
-
-export const MenuItem = models?.MenuItem || model<IMenuItem>('MenuItem', MenuItemSchema);
+export const MenuItem: Model<IMenuItem> = models?.MenuItem || model<IMenuItem>('MenuItem', MenuItemSchema);
