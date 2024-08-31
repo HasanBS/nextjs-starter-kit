@@ -1,13 +1,9 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
+import { IMenuItem } from './interfaces/IMenuItem';
 
-export interface IMenuItem extends Document {
-    name: string;
-    description: string;
-    price: number;
-    thumbnail: string;
-}
 
 const MenuItemSchema: Schema = new Schema({
+    tenantId: { type: mongoose.Schema.Types.ObjectId, required: true, index: true },
     name: { type: String, required: true },
     price: { type: Number, required: true },
     description: {

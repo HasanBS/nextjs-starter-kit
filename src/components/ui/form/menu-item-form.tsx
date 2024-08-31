@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { IMenuItem } from '@/models/MenuItem';
+import { IMenuItem } from '@/models/interfaces/IMenuItem';
 
 export function MenuItemForm() {
     const [editedMenuItem, setEditedMenuItem] = useState<(IMenuItem) | null>(null);
@@ -51,7 +51,7 @@ export function MenuItemForm() {
         if (editedMenuItem) {
             data._id = editedMenuItem._id;
         }
-        
+
         const categoryCreatePromise = fetch('/api/menu-item', {
             method: editedMenuItem ? 'PUT' : 'POST',
             headers: {
@@ -70,7 +70,7 @@ export function MenuItemForm() {
             success: editedMenuItem ? 'Menü öğesi güncellendi' : 'Menü öğesi oluşturuldu',
             error: 'Menü öğesi oluşturulamadı',
         });
-        
+
         setEditedMenuItem(null);
     }
 

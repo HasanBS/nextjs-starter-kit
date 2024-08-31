@@ -1,15 +1,12 @@
-import mongoose, { Schema, Document } from 'mongoose';
-import { IMenuItem } from './MenuItem';
-
-interface IMenu extends Document {
-    name: string;
-    menuItems: IMenuItem[];
-}
+import { model, Schema, Types } from 'mongoose';
+import { IMenu } from './interfaces/IMenu';
 
 const MenuSchema: Schema = new Schema({
+    tenantId: { type: Types.ObjectId, required: true, index: true },
     name: { type: String, required: true },
     menuItems: [{ type: Schema.Types.ObjectId, ref: 'MenuItem' }] // Reference to MenuItem model
+}, {
+    timestamps: true
 });
 
-
-export const Menu = mongoose.model<IMenu>('Menu', MenuSchema);
+export const Menu =  model<IMenu>('Menu', MenuSchema);

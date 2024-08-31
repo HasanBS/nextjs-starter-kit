@@ -1,6 +1,11 @@
 import { Schema, model, models } from 'mongoose';
+import { IUser } from './interfaces/IUser';
 
 const UserSchema = new Schema({
+    _id: {
+        type: String,
+        auto: true,
+    },
     name: {
         type: String,
     },
@@ -17,4 +22,5 @@ const UserSchema = new Schema({
     }
 }, { timestamps: true });
 
-export const User = models?.User || model('User', UserSchema);
+
+export const User = models?.User || model<IUser>('User', UserSchema);

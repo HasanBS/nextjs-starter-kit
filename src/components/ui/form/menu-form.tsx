@@ -8,11 +8,10 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../form";
 import { Input } from "../input";
 import { Button } from "../button";
-import { IMenu } from "@/models/Menu";
+import { IMenu } from "@/models/interfaces/IMenu";
 
 export function MenuForm() {
     const [editedMenu, setEditedMenu] = useState<(IMenu) | null>(null);
-
     const formSchema = z.object({
         name: z.string().min(1, 'Name is required')
     });
@@ -33,7 +32,6 @@ export function MenuForm() {
         if (editedMenu) {
             data._id = editedMenu._id;
         }
-        
         const categoryCreatePromise = fetch('/api/menu', {
             method: editedMenu ? 'PUT' : 'POST',
             headers: {
@@ -52,7 +50,6 @@ export function MenuForm() {
             success: editedMenu ? 'Menü öğesi güncellendi' : 'Menü öğesi oluşturuldu',
             error: 'Menü öğesi oluşturulamadı',
         });
-        
         setEditedMenu(null);
     }
 
