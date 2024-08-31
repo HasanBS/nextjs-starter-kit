@@ -39,13 +39,13 @@ export function MenuTable() {
                     <div className="relative flex items-center gap-2">
                         <Tooltip content="Edit menu">
                             <Link href={'/menus/' + menu._id}>
-                                <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                                <span className="text-lg cursor-pointer active:opacity-50">
                                     <Edit />
                                 </span>
                             </Link>
                         </Tooltip>
-                        <Tooltip color="danger" content="Delete menu">
-                            <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                        <Tooltip content="Delete menu">
+                            <span className="text-lg cursor-pointer active:opacity-50">
                                 <Trash />
                             </span>
                         </Tooltip>
@@ -60,7 +60,7 @@ export function MenuTable() {
         <Table>
             <TableHeader>
                 {columns.map((column) => (
-                    <TableColumn key={column.key}>{column.label}</TableColumn>
+                    <TableColumn key={column.key} className={column.key === 'actions' ? 'w-24 right-0 ' : ''}>{column.label}</TableColumn>
                 ))}
             </TableHeader>
             <TableBody>

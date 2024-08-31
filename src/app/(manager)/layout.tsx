@@ -14,22 +14,9 @@ export default function Layout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const [theme, setTheme] = useState<'dark' | 'light'>('light');
-
-    useEffect(() => {
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        setTheme(mediaQuery.matches ? 'dark' : 'light');
-
-        const handleChange = (e: MediaQueryListEvent) => {
-            setTheme(e.matches ? 'dark' : 'light');
-        };
-
-        mediaQuery.addEventListener('change', handleChange);
-        return () => mediaQuery.removeEventListener('change', handleChange);
-    }, []);
     
     return (
-        <div className={cn("grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]", theme)}>
+        <div className={"grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]"}>
             <SideBar />
             <div className="flex flex-col">
                 <Header />

@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${roboto.className} min-h-screen flex flex-col`}>
+            <body className={`${roboto.className} min-h-screen flex flex-col dark`}>
                 <AppProvider>
                     <Toaster />
                     {children}
