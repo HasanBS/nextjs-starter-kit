@@ -1,4 +1,4 @@
-import { nextui } from '@nextui-org/theme';
+import { nextui } from '@nextui-org/react';
 import type { Config } from 'tailwindcss';
 
 const config = {
@@ -7,7 +7,7 @@ const config = {
         './components/**/*.{ts,tsx}',
         './app/**/*.{ts,tsx}',
         './src/**/*.{ts,tsx}',
-        './node_modules/@nextui-org/theme/dist/components/(table|popover|checkbox|spacer).js',
+        './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
     ],
     prefix: '',
     theme: {

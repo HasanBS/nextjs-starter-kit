@@ -1,13 +1,5 @@
-"use client";
-
-import type { Metadata } from 'next';
-import { Roboto } from 'next/font/google';
 import SideBar from '@/components/ui/layout/side-bar';
 import { Header } from '@/components/ui/layout/header';
-import { useEffect, useState } from 'react';
-import { cn } from '@/lib/utils';
-
-const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'] });
 
 export default function Layout({
     children,
