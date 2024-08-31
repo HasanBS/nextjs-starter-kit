@@ -17,4 +17,5 @@ const MenuItemSchema = new Schema<IMenuItem>({
         type: String,
     },
 });
+
 export const MenuItem: Model<IMenuItem> = models?.MenuItem || model<IMenuItem>('MenuItem', MenuItemSchema);

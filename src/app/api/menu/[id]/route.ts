@@ -1,19 +1,28 @@
 import { Menu } from "@/models/Menu";
 import mongoose from "mongoose";
 
-
 export async function GET(req: Request, {params}: {params: {id: string}}) {
     if (!mongoose.connection.readyState) {
         console.log('Connecting to database');
-        mongoose.connect(process.env.MONGODB_URI ?? '').catch((err) => {
+        try {
+            await mongoose.connect(process.env.MONGODB_URI ?? '');
+        } catch (err) {
             console.error('Failed to connect to database', err);
-        });
+            return new Response(JSON.stringify({ error: 'Failed to connect to database' }), {
+                status: 500,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+        }
     }
 
-    console.log('Getting menu');
-    console.log('menu id:', params.id);
-    const menu = await Menu.find({_id: params.id}).exec();
+    const menu = await Menu.findOne({_id: params.id}).populate('menuItems').exec();
+
     return new Response(JSON.stringify(menu), {
         status: 200,
+        headers: {
+            'Content-Type': 'application/json'
+        }
     });
 }

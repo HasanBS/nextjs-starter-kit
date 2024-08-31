@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import React, { useEffect } from 'react'
+import React from 'react';
 
-export default function MenuConfigurator({ menu } : { menu: any }) {
-    return <div>MenuConfigurator</div>
+export default function MenuConfigurator({ menu }: { menu: any }) {
+    return <div>MenuConfigurator</div>;
 }
