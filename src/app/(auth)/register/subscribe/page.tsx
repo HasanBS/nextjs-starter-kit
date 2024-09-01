@@ -5,8 +5,7 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { UserAuthForm } from "../../components/user-auth-form"
-import { useParams, useSearchParams } from "next/navigation"
-import { useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 
 
 

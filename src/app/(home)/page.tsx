@@ -4,25 +4,28 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Header } from '@/components/ui/layout/header';
 import { Tabs, TabsList, TabsTrigger } from '@radix-ui/react-tabs';
 import { CheckCircle2, Link } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { cn } from "@/lib/utils"
 
 import { useRouter } from 'next/navigation'
+import { plans } from '@/models/plans';
 
 export default function Home() {
 
     type PricingSwitchProps = {
         onSwitch: (value: string) => void
     }
+    const [filteredPlans, setFilteredPlans] = useState([] as PricingCardProps[]);
+    const [isYearly, setIsYearly] = useState(false)
+    const togglePricingPeriod = (value: string) => {
+        setIsYearly(parseInt(value) === 1)
+    }
 
     type PricingCardProps = {
-        isYearly?: boolean
-        title: string,
-        price?: string
-        monthlyPrice?: number
-        yearlyPrice?: number
-        monthlyLink?: string
-        yearlyLink?: string
+        isYearly: boolean
+        title: string
+        price: string
+        link?: string
         description: string
         features: string[]
         actionLabel: string
@@ -39,13 +42,13 @@ export default function Home() {
     )
 
     const PricingSwitch = ({ onSwitch }: PricingSwitchProps) => (
-        <Tabs defaultValue="0" className="w-40 mx-auto" onValueChange={onSwitch}>
+        <Tabs defaultValue="0" className="w-40 mx-auto">
             <TabsList className="py-6 px-2">
-                <TabsTrigger value="0" className="text-base">
+                <TabsTrigger onClick={() => onSwitch("0")} value="0" className="text-base">
                     Monthly
                 </TabsTrigger>
                 /
-                <TabsTrigger value="1" className="text-base">
+                <TabsTrigger onClick={() => onSwitch("1")} value="1" className="text-base">
                     Yearly
                 </TabsTrigger>
             </TabsList>
@@ -67,7 +70,7 @@ export default function Home() {
     }
 
 
-    const PricingCard = ({ isYearly, title, price, monthlyPrice, yearlyPrice, monthlyLink, yearlyLink, description, features, actionLabel, popular, exclusive }: PricingCardProps) => (
+    const PricingCard = ({ isYearly, title, price, link, description, features, actionLabel, popular, exclusive }: PricingCardProps) => (
         <Card
             className={cn(`w-72 flex flex-col justify-between py-1 ${popular ? "border-rose-400" : "border-zinc-700"} mx-auto sm:mx-0`, {
                 "animate-background-shine bg-white dark:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] transition-colors":
@@ -75,22 +78,30 @@ export default function Home() {
             })}>
             <div>
                 <CardHeader className="pb-8 pt-4">
-                    {isYearly && yearlyPrice && monthlyPrice ? (
+                    {price ? (
                         <div className="flex justify-between">
                             <CardTitle className="text-zinc-700 dark:text-zinc-300 text-lg">{title}</CardTitle>
-                            <div
-                                className={cn("px-2.5 rounded-xl h-fit text-sm py-1 bg-zinc-200 text-black dark:bg-zinc-800 dark:text-white", {
-                                    "bg-gradient-to-r from-orange-400 to-rose-400 dark:text-black ": popular,
-                                })}>
-                                Save ${monthlyPrice * 12 - yearlyPrice}
-                            </div>
+                            {
+                                isYearly ?
+                                    <div
+                                        className={cn("px-2.5 rounded-xl h-fit text-sm py-1 bg-zinc-200 text-black dark:bg-zinc-800 dark:text-white", {
+                                            "bg-gradient-to-r from-orange-400 to-rose-400 dark:text-black ": popular,
+                                        })}>
+                                        Save 20%
+                                    </div>
+                                    : null
+                            }
                         </div>
                     ) : (
                         <CardTitle className="text-zinc-700 dark:text-zinc-300 text-lg">{title}</CardTitle>
                     )}
                     <div className="flex gap-0.5">
-                        <h3 className="text-3xl font-bold">{yearlyPrice && isYearly ? "$" + yearlyPrice : monthlyPrice ? "$" + monthlyPrice : price}</h3>
-                        <span className="flex flex-col justify-end text-sm mb-1">{yearlyPrice && isYearly ? "/year" : monthlyPrice ? "/month" : null}</span>
+                        <h3 className="text-3xl font-bold">{"$" + price}</h3>
+                        {
+                            isYearly ?
+                                <span className="flex flex-col justify-end text-sm mb-1">{isYearly ? "/year" : "/month"}</span>
+                                : null
+                        }
                     </div>
                     <CardDescription className="pt-1.5 h-12">{description}</CardDescription>
                 </CardHeader>
@@ -101,7 +112,7 @@ export default function Home() {
                 </CardContent>
             </div>
             <CardFooter className="mt-2">
-                <Button onClick={() => handleSubscription(isYearly ? yearlyLink : monthlyLink)} className="relative inline-flex w-full items-center justify-center rounded-md bg-black text-white dark:bg-white px-6 font-medium  dark:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+                <Button onClick={() => handleSubscription(link)} className="relative inline-flex w-full items-center justify-center rounded-md bg-black text-white dark:bg-white px-6 font-medium  dark:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
                     <div className="absolute -inset-0.5 -z-10 rounded-lg bg-gradient-to-b from-[#c7d2fe] to-[#8678f9] opacity-75 blur" />
                     {actionLabel}
                 </Button>
@@ -117,6 +128,10 @@ export default function Home() {
     )
 
 
+    useEffect(() => {
+        const filteredPlans = plans.filter((plan) => plan.isYearly === null || plan.isYearly === isYearly) as unknown as PricingCardProps[];
+        setFilteredPlans(filteredPlans);
+    }, [isYearly]);
 
     const router = useRouter();
 
@@ -127,49 +142,6 @@ export default function Home() {
         'Official member t-shirt',
     ]
 
-    const [isYearly, setIsYearly] = useState(false)
-    const togglePricingPeriod = (value: string) => setIsYearly(parseInt(value) === 1)
-
-    const plans = [
-        {
-            title: "Free Trial",
-            price: "Free",
-            description: "Start Your Free Trial",
-            features: ["Example Feature Number 1"],
-            actionLabel: "Get Started",
-        },
-        {
-            title: "Basic",
-            monthlyPrice: 10,
-            yearlyPrice: 100,
-            monthlyLink: "test_dR63fe55h06E32E9AD",
-            yearlyLink: "test_cN203269l1aIfPqeUY",
-            description: "Essential features you need to get started",
-            features: ["Example Feature Number 1", "Example Feature Number 2", "Example Feature Number 3"],
-            actionLabel: "Get Started",
-        },
-        {
-            title: "Pro",
-            monthlyPrice: 25,
-            yearlyPrice: 250,
-            monthlyLink: "test_3cseXWdBN8Da46I001",
-            yearlyLink: "test_3cseXW55h06E0Uw28a",
-            description: "Perfect for owners of small & medium businessess",
-            features: ["Example Feature Number 1", "Example Feature Number 2", "Example Feature Number 3"],
-            actionLabel: "Get Started",
-            popular: true,
-        },
-        {
-            title: "Enterprise",
-            price: "Custom",
-            description: "Dedicated support and infrastructure to fit your needs",
-            features: ["Example Feature Number 1", "Example Feature Number 2", "Example Feature Number 3", "Super Exclusive Feature"],
-            actionLabel: "Contact Sales",
-            exclusive: true,
-        },
-    ]
-
-
     return (
         <section>
             <div className="flex flex-col">
@@ -179,8 +151,8 @@ export default function Home() {
                 <PricingHeader title="Pricing Plans" subtitle="Choose the plan that's right for you" />
                 <PricingSwitch onSwitch={togglePricingPeriod} />
                 <section className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-8 mt-8">
-                    {plans.map((plan) => {
-                        return <PricingCard key={plan.title} {...plan} isYearly={isYearly} />
+                    {filteredPlans.map((plan) => {
+                        return <PricingCard key={plan.title} {...plan} price={plan.price.toString()} />
                     })}
                 </section>
             </div>

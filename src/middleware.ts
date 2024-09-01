@@ -12,6 +12,11 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next();
     }
 
+    // Stripe webhook endpoints
+    if (pathname === '/api/webhook' || pathname === '/api/webhooks' || pathname === '/api/webhook/stripe') {
+        return NextResponse.next();
+    }
+
     const token = await getToken({ req, secret });
 
     // Check for login, register, and root paths
