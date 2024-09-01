@@ -10,9 +10,11 @@ import { Input } from "@/components/ui/input"
 import GitHubSignIn from "./GitHubSignIn"
 import GoogleSignIn from "./GoogleSignIn"
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
+  callbackUrl?: string;
+}
 Input
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function UserAuthForm({ callbackUrl, className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   async function onSubmit(event: React.SyntheticEvent) {
@@ -69,7 +71,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         </div>
       </div>
       <GitHubSignIn />
-      <GoogleSignIn />
+      <GoogleSignIn callbackUrl={callbackUrl} />
     </div>
   )
 }
