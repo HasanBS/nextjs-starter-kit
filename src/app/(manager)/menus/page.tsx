@@ -1,7 +1,6 @@
 'use client';
 
 import { PlusCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { MenuItemForm } from '@/components/ui/form/menu-item-form';
 import { MenuForm } from '@/components/ui/form/menu-form';
@@ -9,6 +8,7 @@ import { MenuTable } from '@/components/ui/menu-table/menu-table';
 import toast from 'react-hot-toast';
 import { IMenu } from '@/models/interfaces/IMenu';
 import { useEffect, useState } from 'react';
+import { Button } from '@nextui-org/button';
 
 export default function Page() {
     const [menus, setMenus] = useState([] as IMenu[]);
@@ -52,7 +52,7 @@ export default function Page() {
     }
 
     return (
-        <div className="w-full items-center flex-col gap-4">
+        <div className="w-full flex items-center flex-col gap-4">
             <div className="ml-auto flex items-center gap-2">
                 <Dialog>
                     <DialogTrigger asChild>
