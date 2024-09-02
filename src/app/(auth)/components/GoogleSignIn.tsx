@@ -5,13 +5,13 @@ import { Button } from "../../../components/ui/button";
 import { Icons } from "../../../components/ui/icons";
 import { useState } from "react";
 
-export default function GoogleSignIn() {
+export default function GoogleSignIn({ callbackUrl = '/' }: { callbackUrl?: string }) {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     async function handleGoogleSignIn(event: React.SyntheticEvent) {
         event.preventDefault();
         setIsLoading(true);
         await toast.promise(
-            signIn('google', { callbackUrl: '/' }),
+            signIn('google', { callbackUrl: callbackUrl }),
             {
                 loading: 'Signing in with Google...',
                 success: 'Successfully signed in with Google',
