@@ -1,4 +1,5 @@
 'use client';
+
 import { PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -72,7 +73,7 @@ export default function Page() {
                         <DialogContent className="sm:max-w-[425px]">
                             <DialogHeader>
                                 <DialogTitle>Add new product</DialogTitle>
-                                <DialogDescription>Add your product here. Click submit when you're done.</DialogDescription>
+                                <DialogDescription>Add your product here. Click submit when you&apos;re done.</DialogDescription>
                             </DialogHeader>
                             <MenuItemForm></MenuItemForm>
                         </DialogContent>
@@ -87,7 +88,7 @@ export default function Page() {
                         <DialogContent className="sm:max-w-[425px]">
                             <DialogHeader>
                                 <DialogTitle>Add new product</DialogTitle>
-                                <DialogDescription>Add your product here. Click submit when you're done.</DialogDescription>
+                                <DialogDescription>Add your product here. Click submit when you&apos;re done.</DialogDescription>
                             </DialogHeader>
                             <MenuForm></MenuForm>
                         </DialogContent>
