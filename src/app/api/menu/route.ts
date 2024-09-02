@@ -1,12 +1,24 @@
-import { Menu } from "@/models/Menu";
-import mongoose from "mongoose";
+import { Menu } from '@/models/Menu';
+import mongoose from 'mongoose';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(req: any) {
-    mongoose.connect(process.env.MONGODB_URI ?? '');
-    const tenantId = req.headers.get('x-tenant-id');
-    const { name, menuItems } = await req.json();
-    const categoryDoc = await Menu.create({ name, menuItems, tenantId });
-    return new Response(JSON.stringify(categoryDoc), { status: 201 });
+
+export async function POST(req: NextRequest) {
+    if (!mongoose.connection.readyState) {
+        mongoose.connect(process.env.MONGODB_URI ?? '').catch((err) => {
+            console.error('Failed to connect to database', err);
+        });
+    }
+
+    try {
+        const tenantId = req.headers.get('x-tenant-id');
+        const { name } = await req.json();
+        const menu = await new Menu({ name, menuItems: [], tenantId }).save();
+        return NextResponse.json(menu, { status: 201 });
+    } catch (error) {
+        console.error('Error creating menu:', error);
+        return NextResponse.json({ error: 'Failed to create menu' }, { status: 500 });
+    }
 }
 
 export async function PUT(req: any) {

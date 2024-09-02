@@ -1,13 +1,15 @@
 'use client';
+
 import { PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { MenuItemForm } from '@/components/ui/form/menu-item-form';
 import { MenuForm } from '@/components/ui/form/menu-form';
-import { useEffect, useState } from 'react';
+import { MenuTable } from '@/components/ui/menu-table/menu-table';
 import { Chip } from "@nextui-org/chip";
 import toast from 'react-hot-toast';
 import { IMenu } from '@/models/interfaces/IMenu';
+import { useEffect, useState } from 'react';
 
 
 export default function Page() {
@@ -19,8 +21,7 @@ export default function Page() {
 
     useEffect(() => {
         fetchMenus();
-    }
-        , []);
+    }, []);
 
     async function deleteMenu(menu: any) {
         await fetch('/api/menu', {
@@ -60,9 +61,9 @@ export default function Page() {
                     {menu.name}
                 </Chip>
             ))}
-            <div className="items-center">
+            <div className="w-full items-center flex-col gap-4">
                 <div className="ml-auto flex items-center gap-2">
-                    <Dialog>
+                <Dialog>
                         <DialogTrigger asChild>
                             <Button size="sm" className="h-8 gap-1">
                                 <PlusCircle className="h-3.5 w-3.5" />
@@ -72,7 +73,7 @@ export default function Page() {
                         <DialogContent className="sm:max-w-[425px]">
                             <DialogHeader>
                                 <DialogTitle>Add new product</DialogTitle>
-                                <DialogDescription>Add your product here. Click submit when you're done.</DialogDescription>
+                                <DialogDescription>Add your product here. Click submit when you&apos;re done.</DialogDescription>
                             </DialogHeader>
                             <MenuItemForm></MenuItemForm>
                         </DialogContent>
@@ -87,12 +88,13 @@ export default function Page() {
                         <DialogContent className="sm:max-w-[425px]">
                             <DialogHeader>
                                 <DialogTitle>Add new product</DialogTitle>
-                                <DialogDescription>Add your product here. Click submit when you're done.</DialogDescription>
+                                <DialogDescription>Add your product here. Click submit when you&apos;re done.</DialogDescription>
                             </DialogHeader>
                             <MenuForm></MenuForm>
                         </DialogContent>
                     </Dialog>
                 </div>
+                <MenuTable></MenuTable>
             </div>
         </section>
     );

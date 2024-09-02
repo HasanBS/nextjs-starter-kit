@@ -9,11 +9,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { IMenuItem } from '@/models/interfaces/IMenuItem';
 
 export function MenuItemForm() {
-    const [editedMenuItem, setEditedMenuItem] = useState<(IMenuItem) | null>(null);
-
     const MAX_FILE_SIZE = 5 * 1024 * 1024;
     const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
     const MAX_FILE_COUNT = 1;
@@ -41,23 +38,12 @@ export function MenuItemForm() {
     });
 
     async function handleMenuItemSubmit(values: z.infer<typeof formSchema>) {
-        const data: IMenuItem = {
-            name: values.name,
-            description: values.description,
-            price: values.price,
-            thumbnail: '',
-        };
-
-        if (editedMenuItem) {
-            data._id = editedMenuItem._id;
-        }
-
         const categoryCreatePromise = fetch('/api/menu-item', {
-            method: editedMenuItem ? 'PUT' : 'POST',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(values),
         }).then(async (res) => {
             if (res.ok) {
             } else {
@@ -66,12 +52,10 @@ export function MenuItemForm() {
         });
 
         await toast.promise(categoryCreatePromise, {
-            loading: editedMenuItem ? 'Güncelleniyor...' : 'Oluşturuluyor...',
-            success: editedMenuItem ? 'Menü öğesi güncellendi' : 'Menü öğesi oluşturuldu',
+            loading: 'Oluşturuluyor...',
+            success: 'Menü öğesi oluşturuldu',
             error: 'Menü öğesi oluşturulamadı',
         });
-
-        setEditedMenuItem(null);
     }
 
     return (

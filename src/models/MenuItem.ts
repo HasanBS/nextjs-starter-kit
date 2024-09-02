@@ -1,9 +1,15 @@
-import mongoose, { Schema } from 'mongoose';
-import { IMenuItem } from './interfaces/IMenuItem';
+import { Model, model, models, Schema, Types } from 'mongoose';
 
+interface IMenuItem {
+    tenantId: Types.ObjectId;
+    name: string;
+    description: string;
+    price: number;
+    thumbnail: string;
+}
 
-const MenuItemSchema: Schema = new Schema({
-    tenantId: { type: mongoose.Schema.Types.ObjectId, required: true, index: true },
+const MenuItemSchema = new Schema<IMenuItem>({
+    tenantId: { type: Schema.Types.ObjectId, required: true, index: true },
     name: { type: String, required: true },
     price: { type: Number, required: true },
     description: {
@@ -14,4 +20,4 @@ const MenuItemSchema: Schema = new Schema({
     },
 });
 
-export const MenuItem = mongoose.model<IMenuItem>('MenuItem', MenuItemSchema);
+export const MenuItem: Model<IMenuItem> = models?.MenuItem || model<IMenuItem>('MenuItem', MenuItemSchema);

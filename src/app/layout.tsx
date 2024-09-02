@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { AppProvider } from '@/components/ui/authentication/AppContext';
 
 import './globals.css';
+import { Providers } from './providers';
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'] });
 
@@ -19,11 +20,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${roboto.className} min-h-screen flex flex-col`}>
-                <AppProvider>
-                    <Toaster />
-                    {children}
-                </AppProvider>
+            <body className={`${roboto.className} min-h-screen flex flex-col dark`}>
+                <Providers>{children}</Providers>
+                <Toaster />
             </body>
         </html>
     );

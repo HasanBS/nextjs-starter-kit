@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation';
 
 const links = [
     { href: '/dashboard', label: 'Dashboard', icon: Home },
-    { href: '/my-menus', label: 'Menus', icon: Package },
+    { href: '/menus', label: 'Menus', icon: Package },
 ];
 
 export default function SideBar() {

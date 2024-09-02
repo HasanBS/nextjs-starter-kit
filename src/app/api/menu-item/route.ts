@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 
 export async function POST(req: any) {
     mongoose.connect(process.env.MONGODB_URI ?? '');
-    const { name, description, price, thumbnail } = await req.json();
-    const categoryDoc = await MenuItem.create({ name, description, price, thumbnail });
+    const { name, description, price } = await req.json();
+    const categoryDoc = await MenuItem.create({ name, description, price, thumbnail: '' });
     return Response.json(categoryDoc);
 }
 
