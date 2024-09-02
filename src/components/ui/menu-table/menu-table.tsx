@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Edit, Trash } from 'lucide-react';
+import { Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { Tooltip } from '@nextui-org/tooltip';
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
 import { ModalContent, Modal, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@nextui-org/modal';
 import { Button } from '@nextui-org/button';
+import toast from 'react-hot-toast';
 
 type Column = {
     key: string;
@@ -19,8 +20,9 @@ const columns: Column[] = [
 ];
 
 export function MenuTable() {
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [rows, setRows] = useState<any[]>([]);
+    const [selectedMenu, setSelectedMenu] = useState<any | null>(null);
 
     useEffect(() => {
         const fetchData = () => {
@@ -32,6 +34,31 @@ export function MenuTable() {
 
         fetchData();
     }, []);
+
+    const handleDeleteClick = (selectedMenu: any) => {
+        setSelectedMenu(selectedMenu);
+        onOpen();
+    };
+
+    const handleDelete = async (menuId: string, afterDeleteCallback: () => void ) => {
+        const deletePromise = fetch(`/api/menu/${menuId}`, {
+            method: 'DELETE',
+        })
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error('Menu item could not be deleted');
+            }
+
+            setRows((prevRows) => prevRows.filter((row) => row._id !== menuId));
+            afterDeleteCallback();
+        })
+
+        await toast.promise(deletePromise, {
+            loading: 'Deleting...',
+            success: 'Menu item deleted',
+            error: 'Menu item could not be deleted',
+        });
+    };
 
     const renderCell = React.useCallback((menu: any, columnKey: any) => {
         const cellValue = menu[columnKey];
@@ -47,9 +74,9 @@ export function MenuTable() {
                                 </span>
                             </Link>
                         </Tooltip>
-                        <Tooltip content="Delete menu">
-                            <span onClick={onOpen} className="text-lg cursor-pointer active:opacity-50">
-                                <Trash />
+                        <Tooltip color="danger" content="Delete menu">
+                            <span onClick={() => handleDeleteClick(menu)} className="text-danger text-lg cursor-pointer active:opacity-50">
+                                <Trash2 />
                             </span>
                         </Tooltip>
                     </div>
@@ -61,8 +88,8 @@ export function MenuTable() {
 
     return (
         <>
-            <Table>
-                <TableHeader>
+            <Table isStriped={true}>
+                <TableHeader className="">
                     {columns.map((column) => (
                         <TableColumn key={column.key} className={column.key === 'actions' ? 'w-24 right-0 ' : ''}>
                             {column.label}
@@ -71,7 +98,9 @@ export function MenuTable() {
                 </TableHeader>
                 <TableBody>
                     {rows.map((row: any) => (
-                        <TableRow key={row._id}>{(columnKey) => <TableCell>{renderCell(row, columnKey)}</TableCell>}</TableRow>
+                        <TableRow className="h-16" key={row._id}>
+                            {(columnKey) => <TableCell>{renderCell(row, columnKey)}</TableCell>}
+                        </TableRow>
                     ))}
                 </TableBody>
             </Table>
@@ -79,29 +108,19 @@ export function MenuTable() {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1">Are you sure?</ModalHeader>
                             <ModalBody>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non risus hendrerit venenatis.
-                                    Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                                </p>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non risus hendrerit venenatis.
-                                    Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                                </p>
-                                <p>
-                                    Magna exercitation reprehenderit magna aute tempor cupidatat consequat elit dolor adipisicing. Mollit dolor
-                                    eiusmod sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem aliqua enim laboris do dolor eiusmod.
-                                    Et mollit incididunt nisi consectetur esse laborum eiusmod pariatur proident Lorem eiusmod et. Culpa deserunt
-                                    nostrud ad veniam.
-                                </p>
+                                <p>Are you sure you want to delete {selectedMenu.name}?</p>
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="danger" variant="light" onPress={onClose}>
+                                <Button color="primary" variant="light" onPress={onClose}>
                                     Close
                                 </Button>
-                                <Button color="primary" onPress={onClose}>
-                                    Action
+                                <Button color="danger" onPress={() => handleDelete(selectedMenu._id, onClose)}>
+                                    <div className="flex items-center justify-center gap-1">
+                                        <Trash2 size={20} />
+                                        <span>Delete</span>
+                                    </div>
                                 </Button>
                             </ModalFooter>
                         </>
