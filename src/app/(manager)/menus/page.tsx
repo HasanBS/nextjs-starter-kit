@@ -4,11 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { MenuItemForm } from '@/components/ui/form/menu-item-form';
 import { MenuForm } from '@/components/ui/form/menu-form';
-import { useEffect, MenuTable } from '@/components/ui/menu-table/menu-table';
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
+import { MenuTable } from '@/components/ui/menu-table/menu-table';
 import { Chip } from "@nextui-org/chip";
 import toast from 'react-hot-toast';
 import { IMenu } from '@/models/interfaces/IMenu';
+import { useEffect, useState } from 'react';
 
 
 export default function Page() {
@@ -20,8 +20,7 @@ export default function Page() {
 
     useEffect(() => {
         fetchMenus();
-    }
-        , []);
+    }, []);
 
     async function deleteMenu(menu: any) {
         await fetch('/api/menu', {
