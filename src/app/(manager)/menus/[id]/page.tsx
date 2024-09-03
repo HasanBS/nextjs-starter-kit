@@ -1,13 +1,20 @@
 import React from 'react';
 import MenuConfigurator from './_components/menu-configurator';
+import mongoose from 'mongoose';
+import { Menu } from '@/models/Menu';
 
 export default async function Page({ params }: { params: { id: string } }) {
-    const result = await fetch(`http://localhost:3000/api/menu/${params.id}`);
-    const menu = await result.json();
+    if (!mongoose.connection.readyState) {
+        await mongoose.connect(process.env.MONGODB_URI ?? '');
+    }
 
+    const menu = await Menu.findOne({ _id: params.id }).populate('menuItems').exec();
+
+    const plainMenu = menu?.toObject();
+    
     return (
         <>
-            <MenuConfigurator menu={menu} />
+            <MenuConfigurator menu={plainMenu} />
         </>
     );
 }
