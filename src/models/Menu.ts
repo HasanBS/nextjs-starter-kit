@@ -1,9 +1,10 @@
 import { Model, model, models, Schema, Types } from 'mongoose';
+import { IMenuItem } from './interfaces/IMenuItem';
 
 interface IMenu {
   tenantId: Types.ObjectId;
   name: string;
-  menuItems: Types.ObjectId[];
+  menuItems: (Types.ObjectId[] | IMenuItem[]);
 }
 
 const MenuSchema = new Schema<IMenu>({
