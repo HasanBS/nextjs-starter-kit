@@ -1,7 +1,8 @@
-import { Menu } from "@/models/Menu";
-import mongoose from "mongoose";
+import { Menu } from '@/models/Menu';
+import { MenuItemType } from '@/models/MenuItem';
+import mongoose from 'mongoose';
 
-export async function GET(req: Request, {params}: {params: {id: string}}) {
+export async function GET(req: Request, { params }: { params: { id: string } }) {
     if (!mongoose.connection.readyState) {
         console.log('Connecting to database');
         try {
@@ -17,18 +18,17 @@ export async function GET(req: Request, {params}: {params: {id: string}}) {
         }
     }
 
-    const menu = await Menu.findOne({_id: params.id}).populate('menuItems').exec();
+    const menu = await Menu.findOne({ _id: params.id }).populate<{menuItems: MenuItemType[]}>('menuItems').lean().exec();
 
     return new Response(JSON.stringify(menu), {
         status: 200,
         headers: {
-            'Content-Type': 'application/json'
-        }
+            'Content-Type': 'application/json',
+        },
     });
 }
 
-
-export async function DELETE(req: Request, {params}: {params: {id: string}}) {
+export async function DELETE(req: Request, { params }: { params: { id: string } }) {
     if (!mongoose.connection.readyState) {
         console.log('Connecting to database');
         try {
@@ -44,12 +44,12 @@ export async function DELETE(req: Request, {params}: {params: {id: string}}) {
         }
     }
 
-    const menu = await Menu.findOneAndDelete({_id: params.id});
+    const menu = await Menu.findOneAndDelete({ _id: params.id });
 
     return new Response(JSON.stringify(menu), {
         status: 200,
         headers: {
-            'Content-Type': 'application/json'
-        }
+            'Content-Type': 'application/json',
+        },
     });
 }

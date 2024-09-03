@@ -1,14 +1,6 @@
-import { Model, model, models, Schema, Types } from 'mongoose';
+import { InferSchemaType, Model, model, models, Schema } from 'mongoose';
 
-interface IMenuItem {
-    tenantId: Types.ObjectId;
-    name: string;
-    description: string;
-    price: number;
-    thumbnail: string;
-}
-
-const MenuItemSchema = new Schema<IMenuItem>({
+const MenuItemSchema = new Schema({
     tenantId: { type: Schema.Types.ObjectId, required: true, index: true },
     name: { type: String, required: true },
     price: { type: Number, required: true },
@@ -20,4 +12,6 @@ const MenuItemSchema = new Schema<IMenuItem>({
     },
 });
 
-export const MenuItem: Model<IMenuItem> = models?.MenuItem || model<IMenuItem>('MenuItem', MenuItemSchema);
+export type MenuItemType = InferSchemaType<typeof MenuItemSchema>;
+
+export const MenuItem: Model<MenuItemType> = models?.MenuItem || model<MenuItemType>('MenuItem', MenuItemSchema);

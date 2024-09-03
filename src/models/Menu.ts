@@ -1,16 +1,11 @@
-import { Model, model, models, Schema, Types } from 'mongoose';
-import { IMenuItem } from './interfaces/IMenuItem';
+import { InferSchemaType, Model, model, models, Schema, Types } from 'mongoose';
 
-interface IMenu {
-  tenantId: Types.ObjectId;
-  name: string;
-  menuItems: (Types.ObjectId[] | IMenuItem[]);
-}
-
-const MenuSchema = new Schema<IMenu>({
+const MenuSchema = new Schema({
   tenantId: { type: Schema.Types.ObjectId, required: true, index: true },
   name: { type: String, required: true },
   menuItems: [{ type: Schema.Types.ObjectId, ref: 'MenuItem' }],
 });
 
-export const Menu: Model<IMenu> = models?.Menu || model<IMenu>('Menu', MenuSchema);
+export type MenuType = InferSchemaType<typeof MenuSchema>;
+
+export const Menu: Model<MenuType> = models?.Menu || model<MenuType>('Menu', MenuSchema);
