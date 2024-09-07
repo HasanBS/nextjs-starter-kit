@@ -63,7 +63,7 @@ export default function Home() {
         });
         if (link) {
             // Navigate to the signup page with the query parameters
-            router.push(`/register/subscribe?${queryParams.toString()}`);
+            router.push(`/register?${queryParams.toString()}`);
         } else {
             router.push(`/register}`);
         }

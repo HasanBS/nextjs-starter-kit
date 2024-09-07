@@ -6,12 +6,11 @@ import { MenuItemForm } from '@/components/ui/form/menu-item-form';
 import { MenuForm } from '@/components/ui/form/menu-form';
 import { MenuTable } from '@/components/ui/menu-table/menu-table';
 import toast from 'react-hot-toast';
-import { IMenu } from '@/models/interfaces/IMenu';
 import { useEffect, useState } from 'react';
 import { Button } from '@nextui-org/button';
 
 export default function Page() {
-    const [menus, setMenus] = useState([] as IMenu[]);
+    const [menus, setMenus] = useState([] as any[]);
 
     const handleClose = (menuToRemove: any) => {
         deleteMenu(menuToRemove);
