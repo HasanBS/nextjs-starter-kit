@@ -10,6 +10,7 @@ import { usePathname } from 'next/navigation';
 const links = [
     { href: '/dashboard', label: 'Dashboard', icon: Home },
     { href: '/my-menus', label: 'Menus', icon: Package },
+    { href: '/subdomain', label: 'SubDomain', icon: Package },
 ];
 
 export default function SideBar() {
@@ -33,7 +34,7 @@ export default function SideBar() {
                 </div>
                 <div className="flex-1">
                     <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                    {links.map(({ href, label, icon: Icon }) => (
+                        {links.map(({ href, label, icon: Icon }) => (
                             <Link
                                 key={href}
                                 href={href}

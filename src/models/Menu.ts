@@ -1,4 +1,4 @@
-import { model, Schema, Types } from 'mongoose';
+import { model, models, Schema, Types } from 'mongoose';
 import { IMenu } from './interfaces/IMenu';
 
 const MenuSchema: Schema = new Schema({
@@ -9,4 +9,4 @@ const MenuSchema: Schema = new Schema({
     timestamps: true
 });
 
-export const Menu =  model<IMenu>('Menu', MenuSchema);
+export const Menu = models?.Menu || model<IMenu>('Menu', MenuSchema);

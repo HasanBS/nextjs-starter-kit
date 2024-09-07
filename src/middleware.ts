@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getToken, JWT } from 'next-auth/jwt';
+import { readSiteDomain } from './app/api/subdomain/sites/read-site-domain';
+import SubDomain from './app/(manager)/subdomain/page';
 
 const secret = process.env.NEXTAUTH_SECRET;
 
@@ -16,6 +18,8 @@ export async function middleware(req: NextRequest) {
     if (pathname === '/api/webhook' || pathname === '/api/webhooks' || pathname === '/api/webhook/stripe') {
         return NextResponse.next();
     }
+
+    subDomainCheck(req);
 
     const token = await getToken({ req, secret });
 
@@ -49,10 +53,45 @@ export async function middleware(req: NextRequest) {
     }
 
     // Add tenant ID to headers for other requests
+    //! create a tenantid record for all models and for every request, check if the tenantid is valid in connection
     const tenantId = token?.id;
     const response = NextResponse.next();
     response.headers.set('x-tenant-id', tenantId as string);
     return response;
+
+}
+
+
+async function subDomainCheck(req: NextRequest) {
+    const hostName = req.headers.get('host');
+
+    let currentHost;
+
+    if (process.env.NODE_ENV === 'production') {
+        const baseDomain = process.env.PRODUCTION_DOMAIN;
+        currentHost = hostName?.replace(`${baseDomain}`, '');
+
+    } else {
+        currentHost = hostName?.replace(`.localhost:3000`, '');
+    }
+
+    if (!currentHost) {
+        console.warn('No local host found');
+        return;
+    }
+
+    const response = await readSiteDomain(currentHost);
+
+    if (response.status !== 200) {
+        return;
+    }
+
+    const site = await response.json() as typeof SubDomain;
+
+    return NextResponse.rewrite(
+        new URL(`/${site.name}/dashboard`, req.nextUrl)
+    );
+
 }
 
 // Function to check if the token is still valid
@@ -60,3 +99,5 @@ function isTokenValid(token: JWT) {
     const currentTime = Math.floor(Date.now() / 1000);
     return token.exp && (token.exp as number) > currentTime;
 }
+
+
