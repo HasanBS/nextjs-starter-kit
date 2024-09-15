@@ -5,8 +5,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../form";
-import { Input } from "../input";
-import { Button } from "../button";
+import { Input } from "@nextui-org/input";
 
 export function MenuForm() {
     const formSchema = z.object({
@@ -57,9 +56,6 @@ export function MenuForm() {
                         </FormItem>
                     )}
                 />
-                <div className="flex justify-end">
-                    <Button type="submit">Submit</Button>
-                </div>
             </form>
         </Form>
     );
