@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { Tooltip } from '@nextui-org/tooltip';
@@ -19,21 +19,25 @@ const columns: Column[] = [
     { key: 'actions', label: 'Actions' },
 ];
 
-export function MenuTable() {
+export const MenuTable = forwardRef((props, ref) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [rows, setRows] = useState<any[]>([]);
     const [selectedMenu, setSelectedMenu] = useState<any | null>(null);
 
-    useEffect(() => {
-        const fetchData = () => {
-            fetch('/api/menu')
-                .then((response) => response.json())
-                .then((data) => setRows(data))
-                .catch((error) => console.error('Error fetching menu data:', error));
-        };
+    const fetchData = () => {
+        fetch('/api/menu')
+            .then((response) => response.json())
+            .then((data) => setRows(data))
+            .catch((error) => console.error('Error fetching menu data:', error));
+    };
 
+    useEffect(() => {
         fetchData();
     }, []);
+
+    useImperativeHandle(ref, () => ({
+        refresh: fetchData,
+    }));
 
     const handleDeleteClick = (selectedMenu: any) => {
         setSelectedMenu(selectedMenu);
@@ -129,4 +133,4 @@ export function MenuTable() {
             </Modal>
         </>
     );
-}
+});

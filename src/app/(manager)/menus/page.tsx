@@ -10,6 +10,7 @@ import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure
 export default function Page() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const formRef = useRef<HTMLFormElement>(null);
+    const menuTableRef = useRef<{ refresh: () => void }>(null);    
 
     const handleMenuAddClick = () => {
         onOpen();
@@ -20,6 +21,7 @@ export default function Page() {
             formRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
         }
         afterAddCallback();
+        menuTableRef.current?.refresh();
     };
 
     return (
@@ -52,7 +54,7 @@ export default function Page() {
                     </ModalContent>
                 </Modal>
             </div>
-            <MenuTable />
+            <MenuTable ref={menuTableRef} />
         </div>
     );
 }
