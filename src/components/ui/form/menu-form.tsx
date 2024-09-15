@@ -1,13 +1,15 @@
 "use client";
 
+import React, { forwardRef } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../form";
+import { Button } from "../button";
 import { Input } from "@nextui-org/input";
 
-export function MenuForm() {
+export const MenuForm = forwardRef<HTMLFormElement>((props, ref) => {
     const formSchema = z.object({
         name: z.string().min(1, 'Name is required')
     });
@@ -42,7 +44,7 @@ export function MenuForm() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleMenuSubmit)} className="space-y-8">
+            <form ref={ref} onSubmit={form.handleSubmit(handleMenuSubmit)} className="space-y-8">
                 <FormField
                     control={form.control}
                     name="name"
@@ -59,4 +61,4 @@ export function MenuForm() {
             </form>
         </Form>
     );
-}
+});

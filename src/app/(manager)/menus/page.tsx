@@ -1,5 +1,6 @@
-'use client';
+"use client";
 
+import { useRef } from 'react';
 import { PlusCircle } from 'lucide-react';
 import { MenuForm } from '@/components/ui/form/menu-form';
 import { MenuTable } from '@/components/ui/menu-table/menu-table';
@@ -8,14 +9,18 @@ import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure
 
 export default function Page() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const formRef = useRef<HTMLFormElement>(null);
 
     const handleMenuAddClick = () => {
         onOpen();
     };
 
-    const handleMenuAdd =  (afterAddCallback: () => void) => {
+    const handleMenuAdd = (afterAddCallback: () => void) => {
+        if (formRef.current) {
+            formRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        }
         afterAddCallback();
-    }
+    };
 
     return (
         <div className="w-full flex items-center flex-col gap-4">
@@ -30,7 +35,7 @@ export default function Page() {
                             <>
                                 <ModalHeader className="flex flex-col gap-1">Add new menu</ModalHeader>
                                 <ModalBody>
-                                    <MenuForm></MenuForm>
+                                    <MenuForm ref={formRef} />
                                 </ModalBody>
                                 <ModalFooter>
                                     <Button color="primary" variant="light" onPress={onClose}>
@@ -47,7 +52,7 @@ export default function Page() {
                     </ModalContent>
                 </Modal>
             </div>
-            <MenuTable></MenuTable>
+            <MenuTable />
         </div>
     );
 }
