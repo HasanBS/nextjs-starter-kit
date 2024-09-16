@@ -12,8 +12,10 @@ RUN npm install
 # Copy project files
 COPY . .
 
-# Set environment variables for production
-ENV NODE_ENV staging
+ARG MONGODB_URI
+ENV MONGODB_URI=${MONGODB_URI}
+
+RUN echo "MONGODB_URI during build is: ${MONGODB_URI}"
 
 # Build the Next.js app
 RUN npm run build
